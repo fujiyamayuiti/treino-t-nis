@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Treino Tênis">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0E1B2A">
+<title>Programa de Condicionamento — Tênis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E1B2A;
+    --bg-alt:#0A1420;
+    --card:#152840;
+    --card-hover:#1B3149;
+    --line:rgba(255,255,255,0.09);
+    --text:#F2F1E8;
+    --text-dim:#93A5B8;
+    --lime:#D6FF3F;
+    --lime-dim:#A9CC2E;
+    --clay:#C1502E;
+    --clay-soft:#E8794F;
+    --radius:14px;
+    --court-line: repeating-linear-gradient(90deg, rgba(255,255,255,0.5) 0 10px, transparent 10px 18px);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse at top left, rgba(214,255,63,0.06), transparent 45%),
+      radial-gradient(ellipse at bottom right, rgba(193,80,46,0.10), transparent 50%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px;}
+
+  /* HERO */
+  .hero{
+    padding:44px 20px 26px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:'';
+    position:absolute;
+    left:0;right:0;bottom:0;
+    height:2px;
+    background:var(--court-line);
+    opacity:.35;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--lime);
+    margin:0 0 10px;
+  }
+  h1.title{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(38px,7vw,64px);
+    line-height:.95;
+    letter-spacing:.01em;
+    margin:0 0 12px;
+    color:var(--text);
+  }
+  h1.title span{color:var(--clay-soft);}
+  .subtitle{
+    max-width:560px;
+    color:var(--text-dim);
+    font-size:15px;
+    line-height:1.55;
+    margin:0 0 20px;
+  }
+  .profile-row{
+    display:flex;flex-wrap:wrap;gap:8px;
+  }
+  .chip{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    padding:6px 12px;
+    border:1px solid var(--line);
+    border-radius:100px;
+    color:var(--text-dim);
+    background:rgba(255,255,255,0.02);
+  }
+
+  /* TABS */
+  .tabs{
+    display:flex;
+    gap:6px;
+    padding:18px 20px 0;
+    overflow-x:auto;
+    max-width:920px;
+    margin:0 auto;
+    scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{
+    flex:0 0 auto;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:.03em;
+    padding:10px 16px;
+    border-radius:100px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--text-dim);
+    cursor:pointer;
+    transition:all .15s ease;
+    white-space:nowrap;
+  }
+  .tab:hover{border-color:rgba(255,255,255,0.25);color:var(--text);}
+  .tab.active{
+    background:var(--lime);
+    color:#0E1B2A;
+    border-color:var(--lime);
+    font-weight:700;
+  }
+
+  main{padding-top:26px;}
+  .day-header{margin-bottom:20px;}
+  .day-header .num{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:15px;
+    letter-spacing:.16em;
+    color:var(--clay-soft);
+    text-transform:uppercase;
+  }
+  .day-header h2{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(26px,5vw,36px);
+    margin:2px 0 8px;
+    letter-spacing:.01em;
+  }
+  .day-header p{color:var(--text-dim);font-size:14px;line-height:1.6;margin:0;max-width:640px;}
+
+  .block-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    color:var(--lime-dim);
+    margin:26px 0 12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .block-label::after{
+    content:'';flex:1;height:1px;background:var(--line);
+  }
+
+  .warmup-box, .finisher-box{
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:14px 18px;
+    font-size:13.5px;
+    color:var(--text-dim);
+    line-height:1.6;
+    margin-bottom:18px;
+  }
+  .warmup-box b, .finisher-box b{color:var(--text);}
+
+  /* EXERCISE CARD */
+  .exercise{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px 18px 20px;
+    margin-bottom:14px;
+    transition:border-color .15s ease;
+  }
+  .exercise.done{border-color:rgba(214,255,63,0.35);}
+  .ex-top{
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+  }
+  .ex-index{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:26px;
+    color:rgba(255,255,255,0.18);
+    line-height:1;
+    min-width:34px;
+  }
+  .ex-main{flex:1;min-width:0;}
+  .ex-name{
+    font-size:16.5px;
+    font-weight:700;
+    margin:0 0 6px;
+    transition:color .15s ease, opacity .15s ease;
+  }
+  .exercise.done .ex-name{
+    text-decoration:line-through;
+    color:var(--text-dim);
+    opacity:.6;
+  }
+  .ex-focus{
+    font-size:13px;
+    color:var(--text-dim);
+    margin:0 0 12px;
+    line-height:1.5;
+  }
+  .badges{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
+  .badge{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    padding:4px 10px;
+    border-radius:6px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid var(--line);
+    color:var(--text);
+  }
+  .badge.reps{color:var(--lime);border-color:rgba(214,255,63,0.25);background:rgba(214,255,63,0.06);}
+
+  .video-link{
+    position:relative;display:block;padding-bottom:56.25%;height:0;
+    overflow:hidden;border-radius:9px;
+    background:#000;
+    border:1px solid var(--line);
+    text-decoration:none;
+  }
+  .video-link img{
+    position:absolute;top:0;left:0;width:100%;height:100%;
+    object-fit:cover;opacity:.8;
+    transition:opacity .15s ease, transform .25s ease;
+  }
+  .video-link:hover img{opacity:1;transform:scale(1.03);}
+  .play-badge{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:56px;height:56px;border-radius:50%;
+    background:rgba(214,255,63,0.94);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 24px rgba(0,0,0,0.45);
+    transition:transform .15s ease;
+  }
+  .video-link:hover .play-badge{transform:translate(-50%,-50%) scale(1.1);}
+  .play-badge svg{width:20px;height:20px;fill:#0E1B2A;margin-left:3px;}
+  .video-caption{
+    position:absolute;bottom:0;left:0;right:0;
+    padding:9px 12px;
+    background:linear-gradient(transparent, rgba(0,0,0,0.8));
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;color:#fff;
+    display:flex;align-items:center;gap:6px;
+  }
+
+  /* TENNIS BALL CHECKBOX */
+  .ball-btn{
+    appearance:none;-webkit-appearance:none;
+    width:30px;height:30px;min-width:30px;
+    border-radius:50%;
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    background:rgba(255,255,255,0.06);
+    border:2px solid var(--line);
+    margin-top:2px;
+  }
+  .ball-btn::before,.ball-btn::after{
+    content:'';position:absolute;width:150%;height:150%;
+    border:1.6px solid rgba(255,255,255,0.14);
+    border-radius:50%;top:-25%;
+  }
+  .ball-btn::before{left:-95%;}
+  .ball-btn::after{left:45%;}
+  .ball-btn.checked{
+    background:var(--lime);
+    border-color:var(--lime);
+  }
+  .ball-btn.checked::before,.ball-btn.checked::after{
+    border-color:rgba(14,27,42,0.55);
+  }
+
+  .day-footer{
+    margin-top:24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    flex-wrap:wrap;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+  }
+  .progress-text{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--text-dim);}
+  .progress-text b{color:var(--lime);}
+  .complete-btn{
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:14px;
+    background:var(--clay);
+    color:#fff;
+    border:none;
+    padding:12px 22px;
+    border-radius:100px;
+    cursor:pointer;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .complete-btn:hover{background:var(--clay-soft);}
+  .complete-btn:active{transform:scale(.97);}
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--lime);color:#0E1B2A;font-weight:700;font-size:14px;
+    padding:12px 22px;border-radius:100px;opacity:0;
+    transition:all .25s ease;pointer-events:none;
+    font-family:'Inter',sans-serif;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* OVERVIEW */
+  .overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:26px;}
+  .ov-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px;
+  }
+  .ov-card .d{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--clay-soft);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
+  .ov-card h3{font-family:'Bebas Neue',sans-serif;font-size:22px;margin:0 0 8px;letter-spacing:.01em;}
+  .ov-card p{font-size:12.5px;color:var(--text-dim);line-height:1.55;margin:0;}
+
+  .note-box{
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px;
+    font-size:13.5px;
+    line-height:1.7;
+    color:var(--text-dim);
+  }
+  .note-box h4{color:var(--text);font-size:14px;margin:0 0 8px;font-family:'Inter',sans-serif;}
+  .note-box ul{margin:0;padding-left:18px;}
+  .note-box li{margin-bottom:6px;}
+
+  /* HISTORY */
+  .stat-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:22px;}
+  .stat{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px 20px;flex:1;min-width:130px;
+  }
+  .stat .num{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--lime);line-height:1;}
+  .stat .lbl{font-size:11.5px;color:var(--text-dim);margin-top:4px;text-transform:uppercase;letter-spacing:.06em;font-family:'JetBrains Mono',monospace;}
+  .log-item{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:13px 16px;background:var(--card);border:1px solid var(--line);
+    border-radius:10px;margin-bottom:8px;font-size:13.5px;
+  }
+  .log-item .l-day{font-weight:700;}
+  .log-item .l-date{color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:12px;}
+  .log-item .l-count{font-family:'JetBrains Mono',monospace;color:var(--lime);font-size:12.5px;}
+  .empty-hist{color:var(--text-dim);font-size:13.5px;padding:30px 0;text-align:center;}
+
+  section.day{display:none;}
+  section.day.active{display:block;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <p class="eyebrow">// condicionamento físico específico</p>
+    <h1 class="title">Preparação física <span>para tênis</span></h1>
+    <p class="subtitle">Programa de 4 dias focado em explosão, pliometria, resistência de core com kettlebell e condicionamento aeróbico — construído sobre sua rotina atual de academia.</p>
+    <div class="profile-row">
+      <span class="chip">35 anos</span>
+      <span class="chip">1,67 m · 70 kg</span>
+      <span class="chip">~16% gordura</span>
+      <span class="chip">tênis 1x/sem</span>
+      <span class="chip">4x/semana · ~60 min</span>
+    </div>
+  </div>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<main class="wrap">
+  <section class="day active" id="view-overview"></section>
+  <section class="day" id="view-d1"></section>
+  <section class="day" id="view-d2"></section>
+  <section class="day" id="view-d3"></section>
+  <section class="day" id="view-d4"></section>
+  <section class="day" id="view-hist"></section>
+</main>
+
+<div class="toast" id="toast">Treino registrado ✓</div>
+
+<script>
+const DATA = {
+  d1: {
+    label:"Pernas, Potência & Pliometria",
+    tag:"DIA 1",
+    desc:"Foco em força de base para as pernas e explosão vertical/lateral — a base para arrancadas rápidas e mudanças de direção em quadra.",
+    warmup:"8 min — mobilidade de quadril e tornozelo, ativação de glúteo (banda), corda leve 3 min, saltitos progressivos.",
+    exercises:[
+      {n:"Agachamento Livre com Barra", focus:"Força de base para pernas — sustenta toda a potência de arrancada.", sets:"4x8", rest:"90s", vid:"rM6SDUdl9fs"},
+      {n:"Box Jump", focus:"Potência vertical explosiva. Priorize aterrissagem silenciosa e controlada.", sets:"4x6", rest:"90s", vid:"ofWIS1-Vtow"},
+      {n:"Afundo Búlgaro", focus:"Força unilateral e estabilidade de joelho — essencial para o apoio na troca de direção.", sets:"3x10 cada perna", rest:"75s", vid:"YjPIjhRtMqU"},
+      {n:"Salto Lateral (Lateral Bound)", focus:"Potência lateral — o padrão de movimento mais específico do tênis.", sets:"4x8 cada lado", rest:"90s", vid:"soqQy4dzEts"},
+      {n:"Levantamento Terra Romeno", focus:"Posterior de coxa e glúteo — cadeia de frenagem/desaceleração.", sets:"3x10", rest:"75s", vid:"iwuFJA88Xqg"},
+      {n:"Skater Jump", focus:"Potência lateral + propriocepção, ritmo mais dinâmico que o lateral bound.", sets:"3x12 cada lado", rest:"60s", vid:"4bkS2J84qMA"},
+    ],
+    finisher:"Bike ou corrida — 10 min intervalado (30s forte / 30s leve)."
+  },
+  d2: {
+    label:"Superiores & Potência Rotacional",
+    tag:"DIA 2",
+    desc:"Força de tronco superior com ênfase em potência rotacional — a base do saque, forehand e backhand.",
+    warmup:"8 min — mobilidade de ombro e coluna torácica, banda elástica (pull-apart), rotações leves de tronco.",
+    exercises:[
+      {n:"Supino Reto com Barra", focus:"Força de empurrar — sustentação para saque e voleios.", sets:"4x8", rest:"90s", vid:"vIGvt-vgrvY"},
+      {n:"Remada Curvada com Barra", focus:"Força de puxar e postura — equilibra o volume de empurrar.", sets:"4x10", rest:"90s", vid:"_vO2dAnz__c"},
+      {n:"Arremesso Rotacional com Medicine Ball", focus:"Potência rotacional explosiva — transferência direta para forehand/saque.", sets:"4x8 cada lado", rest:"75s", vid:"MA5W6TA768k"},
+      {n:"Desenvolvimento Militar", focus:"Ombros e estabilidade acima da cabeça — proteção para o movimento de saque.", sets:"3x10", rest:"75s", vid:"aywWGC9d0WA"},
+      {n:"Puxada Alta (Pulley)", focus:"Dorsais — suporte postural para jogos longos.", sets:"3x10", rest:"60s", vid:"7cCiQUdIXWw"},
+      {n:"Medicine Ball Slam", focus:"Potência de tronco explosiva em plano vertical.", sets:"3x12", rest:"60s", vid:"EsAhU1jHpiQ"},
+      {n:"Prancha Lateral com Rotação", focus:"Core anti-rotação — estabiliza o tronco durante golpes.", sets:"3x10 cada lado", rest:"45s", vid:"afuP1EXLp5c"},
+    ],
+    finisher:"Remo ou bike — 10 min intervalado (30s forte / 30s leve)."
+  },
+  d3: {
+    label:"Core, Kettlebell & Agilidade",
+    tag:"DIA 3",
+    desc:"Estabilidade de core e coordenação de pés — o que sustenta cada troca de direção rápida dentro da quadra.",
+    warmup:"8 min — passagens leves na escada de agilidade, mobilidade de quadril.",
+    exercises:[
+      {n:"Kettlebell Swing", focus:"Potência de quadril e resistência muscular — base de todo trabalho com kettlebell.", sets:"4x15", rest:"60s", vid:"MB87gQFA_y0"},
+      {n:"Turkish Get-Up", focus:"Estabilidade total do corpo e controle de ombro sob carga.", sets:"3x5 cada lado", rest:"60s", vid:"h9IFZlf4QD4"},
+      {n:"Kettlebell Goblet Squat", focus:"Pernas + core em conjunto, boa opção de volume sem sobrecarregar a coluna.", sets:"3x12", rest:"60s", vid:"0eW8av1WC4g"},
+      {n:"Russian Twist com Kettlebell", focus:"Rotação de core controlada — transferência para golpes de lado.", sets:"3x20", rest:"45s", vid:"PkGPokybYaU"},
+      {n:"Escada de Agilidade (drills variados)", focus:"Coordenação e velocidade de pés — fundamental para o footwork do tênis.", sets:"4 séries de 20-30s", rest:"45s", vid:"gtbvLLtMulo"},
+      {n:"Kettlebell Remada Unilateral", focus:"Costas + anti-rotação de core ao mesmo tempo.", sets:"3x10 cada lado", rest:"60s", vid:"uQZZdGF16KQ"},
+    ],
+    finisher:"Circuito leve de agilidade + corda — 10 min contínuo."
+  },
+  d4: {
+    label:"Condicionamento & Explosão",
+    tag:"DIA 4",
+    desc:"Velocidade máxima com pernas frescas, seguida de condicionamento metabólico — o combustível para queima de gordura e resistência em jogos longos.",
+    warmup:"8 min — trote leve + mobilidade dinâmica (skipping, calcanhar no glúteo, avanço com giro).",
+    exercises:[
+      {n:"Sprint Técnico (tiros de 20-30m)", focus:"Velocidade máxima — feito primeiro, com recuperação completa entre tiros, para treinar potência real (não resistência).", sets:"6-8 repetições", rest:"90-120s completo", vid:"eVZqiH0JzY4"},
+      {n:"Burpee", focus:"Condicionamento full-body de alta intensidade.", sets:"30s trabalho", rest:"15s (circuito)", vid:"CrGAnJEfcmY"},
+      {n:"Mountain Climber", focus:"Frequência cardíaca elevada + core dinâmico.", sets:"30s trabalho", rest:"15s (circuito)", vid:"8wuUiihTbdw"},
+      {n:"Jump Squat", focus:"Potência de pernas sob fadiga acumulada.", sets:"30s trabalho", rest:"15s (circuito)", vid:"gnz5OFSO2IU"},
+      {n:"Shuttle Run (tiro curto)", focus:"Agilidade + condicionamento específico de quadra.", sets:"30s trabalho", rest:"15s (circuito)", vid:"pkFJcCmPxqM"},
+      {n:"Battle Rope", focus:"Condicionamento de braços e core, baixo impacto articular.", sets:"30s trabalho", rest:"15s (circuito)", vid:"uyLccdETUEw"},
+    ],
+    finisher:"Circuito de Burpee → Mountain Climber → Jump Squat → Shuttle Run → Battle Rope: repita por 4 rounds (2 min de descanso entre rounds)."
+  }
+};
+
+const DAY_ORDER = ["d1","d2","d3","d4"];
+let sessionChecks = {d1:{},d2:{},d3:{},d4:{}};
+let workoutLog = [];
+let activeTab = "overview";
+
+// ---------- storage helpers (localStorage — funciona em qualquer navegador/hospedagem) ----------
+function loadChecks(){
+  try{
+    const raw = localStorage.getItem('tenis-session-checks');
+    if(raw) sessionChecks = JSON.parse(raw);
+  }catch(e){ /* nenhum estado salvo ainda */ }
+}
+function saveChecks(){
+  try{ localStorage.setItem('tenis-session-checks', JSON.stringify(sessionChecks)); }
+  catch(e){ console.error('falha ao salvar', e); }
+}
+function loadLog(){
+  try{
+    const raw = localStorage.getItem('tenis-workout-log');
+    if(raw) workoutLog = JSON.parse(raw);
+  }catch(e){ /* nenhum histórico salvo ainda */ }
+}
+function saveLog(){
+  try{ localStorage.setItem('tenis-workout-log', JSON.stringify(workoutLog)); }
+  catch(e){ console.error('falha ao salvar', e); }
+}
+
+// ---------- rendering ----------
+function renderTabs(){
+  const tabsEl = document.getElementById('tabs');
+  const tabs = [
+    {id:'overview', label:'Visão Geral'},
+    {id:'d1', label:'Dia 1 · Pernas'},
+    {id:'d2', label:'Dia 2 · Superiores'},
+    {id:'d3', label:'Dia 3 · Core & KB'},
+    {id:'d4', label:'Dia 4 · HIIT'},
+    {id:'hist', label:'Histórico'},
+  ];
+  tabsEl.innerHTML = tabs.map(t =>
+    `<button class="tab ${activeTab===t.id?'active':''}" data-tab="${t.id}">${t.label}</button>`
+  ).join('');
+  tabsEl.querySelectorAll('.tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      activeTab = btn.dataset.tab;
+      renderTabs();
+      renderView();
+    });
+  });
+}
+
+function renderOverview(){
+  const el = document.getElementById('view-overview');
+  el.innerHTML = `
+    <div class="day-header">
+      <p class="num">Semana</p>
+      <h2>Estrutura do programa</h2>
+      <p>4 sessões por semana, ~60 min cada. Distribua com pelo menos 1 dia de descanso entre sessões de pernas pesadas e mantenha o tênis em dia separado quando possível.</p>
+    </div>
+    <div class="overview-grid">
+      ${DAY_ORDER.map((k,i)=>`
+        <div class="ov-card">
+          <div class="d">${DATA[k].tag}</div>
+          <h3>${DATA[k].label}</h3>
+          <p>${DATA[k].desc}</p>
+        </div>
+      `).join('')}
+    </div>
+    <div class="note-box">
+      <h4>Como progredir</h4>
+      <ul>
+        <li><b>Semanas 1-2:</b> foco em técnica e volume moderado — use os pesos indicados como ponto de partida, ajuste conforme sua sensação (RPE 7-8/10).</li>
+        <li><b>Semanas 3-4:</b> aumente carga nos exercícios de força (agachamento, RDL, supino, remada) e a distância/altura nos pliométricos, mantendo boa aterrissagem.</li>
+        <li><b>Recuperação:</b> pliometria e sprints exigem SNC descansado — evite empilhar Dia 1 e Dia 4 em dias seguidos sempre que possível.</li>
+        <li>Este é um plano de referência geral; considerando qualquer histórico de lesão, vale validar a carga com um profissional de educação física.</li>
+      </ul>
+    </div>
+  `;
+}
+
+function renderDay(key){
+  const d = DATA[key];
+  const el = document.getElementById('view-'+key);
+  const doneCount = d.exercises.filter((_,i)=>sessionChecks[key][i]).length;
+  el.innerHTML = `
+    <div class="day-header">
+      <p class="num">${d.tag}</p>
+      <h2>${d.label}</h2>
+      <p>${d.desc}</p>
+    </div>
+    <div class="block-label">Aquecimento</div>
+    <div class="warmup-box">${d.warmup}</div>
+    <div class="block-label">Treino Principal</div>
+    ${d.exercises.map((ex,i)=>`
+      <div class="exercise ${sessionChecks[key][i]?'done':''}" data-idx="${i}">
+        <div class="ex-top">
+          <div class="ex-index">${String(i+1).padStart(2,'0')}</div>
+          <div class="ex-main">
+            <p class="ex-name">${ex.n}</p>
+            <p class="ex-focus">${ex.focus}</p>
+            <div class="badges">
+              <span class="badge reps">${ex.sets}</span>
+              <span class="badge">descanso ${ex.rest}</span>
+            </div>
+            <a class="video-link" href="https://www.youtube.com/watch?v=${ex.vid}" target="_blank" rel="noopener">
+              <img src="https://img.youtube.com/vi/${ex.vid}/hqdefault.jpg" alt="Vídeo de execução: ${ex.n}" loading="lazy">
+              <span class="play-badge"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+              <span class="video-caption">▶ Ver execução no YouTube</span>
+            </a>
+          </div>
+          <button class="ball-btn ${sessionChecks[key][i]?'checked':''}" data-idx="${i}" aria-label="Marcar como concluído"></button>
+        </div>
+      </div>
+    `).join('')}
+    <div class="block-label">Finalizador Aeróbico</div>
+    <div class="finisher-box">${d.finisher}</div>
+    <div class="day-footer">
+      <div class="progress-text"><b>${doneCount}/${d.exercises.length}</b> exercícios marcados</div>
+      <button class="complete-btn" id="complete-${key}">Concluir treino do dia</button>
+    </div>
+  `;
+
+  el.querySelectorAll('.ball-btn').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const idx = btn.dataset.idx;
+      sessionChecks[key][idx] = !sessionChecks[key][idx];
+      await saveChecks();
+      renderDay(key);
+    });
+  });
+
+  document.getElementById('complete-'+key).addEventListener('click', async ()=>{
+    const done = d.exercises.filter((_,i)=>sessionChecks[key][i]).length;
+    workoutLog.unshift({
+      date: new Date().toISOString(),
+      day: d.tag,
+      label: d.label,
+      done: done,
+      total: d.exercises.length
+    });
+    sessionChecks[key] = {};
+    await saveLog();
+    await saveChecks();
+    renderDay(key);
+    showToast();
+  });
+}
+
+function renderHistory(){
+  const el = document.getElementById('view-hist');
+  const now = new Date();
+  const weekAgo = new Date(now.getTime() - 7*24*60*60*1000);
+  const last7 = workoutLog.filter(l => new Date(l.date) >= weekAgo).length;
+  const total = workoutLog.length;
+
+  el.innerHTML = `
+    <div class="day-header">
+      <p class="num">Controle</p>
+      <h2>Histórico de treinos</h2>
+      <p>Registrado automaticamente sempre que você conclui um treino do dia.</p>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="num">${last7}</div><div class="lbl">últimos 7 dias</div></div>
+      <div class="stat"><div class="num">${total}</div><div class="lbl">total registrado</div></div>
+      <div class="stat"><div class="num">${last7>=4?'✓':last7}/4</div><div class="lbl">meta semanal</div></div>
+    </div>
+    ${workoutLog.length===0 ? '<div class="empty-hist">Nenhum treino registrado ainda. Marque os exercícios e clique em "Concluir treino do dia" para começar seu histórico.</div>' :
+      workoutLog.map(l=>{
+        const dt = new Date(l.date);
+        const dateStr = dt.toLocaleDateString('pt-BR', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+        return `<div class="log-item">
+          <div><span class="l-day">${l.day}</span> — ${l.label}</div>
+          <div style="display:flex;gap:14px;align-items:center;">
+            <span class="l-count">${l.done}/${l.total}</span>
+            <span class="l-date">${dateStr}</span>
+          </div>
+        </div>`;
+      }).join('')
+    }
+  `;
+}
+
+function showToast(){
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+function renderView(){
+  document.querySelectorAll('section.day').forEach(s=>s.classList.remove('active'));
+  if(activeTab==='overview'){ renderOverview(); document.getElementById('view-overview').classList.add('active'); }
+  else if(activeTab==='hist'){ renderHistory(); document.getElementById('view-hist').classList.add('active'); }
+  else { renderDay(activeTab); document.getElementById('view-'+activeTab).classList.add('active'); }
+}
+
+(async function init(){
+  await loadChecks();
+  await loadLog();
+  renderTabs();
+  renderView();
+})();
+</script>
+</body>
+</html>
